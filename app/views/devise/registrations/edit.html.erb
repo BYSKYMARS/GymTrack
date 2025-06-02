@@ -1,0 +1,77 @@
+<h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "needs-validation", novalidate: true }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="mb-3">
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Por favor ingresa un correo válido.
+    </div>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="alert alert-warning">
+      Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :password, class: "form-label" %> <small class="text-muted">(leave blank if you don't want to change it)</small>
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", minlength: (@minimum_password_length || 0) %>
+    <% if @minimum_password_length %>
+      <small class="form-text text-muted"><%= @minimum_password_length %> characters minimum</small>
+    <% end %>
+    <div class="invalid-feedback">
+      La contraseña debe tener al menos <%= @minimum_password_length %> caracteres.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :password_confirmation, class: "form-label" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+    <div class="invalid-feedback">
+      Por favor confirma tu contraseña.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :current_password, class: "form-label" %> <small class="text-muted">(we need your current password to confirm your changes)</small>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Debes ingresar tu contraseña actual.
+    </div>
+  </div>
+
+  <div>
+    <%= f.submit "Update", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<h3 class="mt-4">Cancel my account</h3>
+
+<div class="mb-3">
+  Unhappy? 
+  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %>
+</div>
+
+<%= link_to "Back", :back, class: "btn btn-secondary" %>
+
+<script>
+  // Bootstrap client-side validation
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        // Password fields are optional except current_password which is required
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

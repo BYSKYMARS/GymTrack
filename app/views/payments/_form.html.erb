@@ -1,0 +1,47 @@
+<%= form_with(model: payment, local: true) do |form| %>
+  <% if payment.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(payment.errors.count, "error") %> prohibited this payment from being saved:</h4>
+      <ul>
+        <% payment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :user_id, class: "form-label" %>
+    <%= form.text_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :plan_id, class: "form-label" %>
+    <%= form.text_field :plan_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :amount_paid, class: "form-label" %>
+    <%= form.text_field :amount_paid, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :paid_on, class: "form-label" %>
+    <%= form.datetime_field :paid_on, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :expires_on, class: "form-label" %>
+    <%= form.datetime_field :expires_on, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.text_field :status, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>
+

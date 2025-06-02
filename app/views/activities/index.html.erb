@@ -1,0 +1,24 @@
+<% if notice.present? %>
+  <div class="alert alert-success"><%= notice %></div>
+<% end %>
+
+<% content_for :title, "Actividades" %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Actividades</h1>
+
+  <div id="activities" class="list-group">
+    <% @activities.each do |activity| %>
+      <div class="list-group-item">
+        <%= render activity %>
+        <div class="mt-2">
+          <%= link_to "Ver actividad", activity, class: "btn btn-sm btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Nueva actividad", new_activity_path, class: "btn btn-success" %>
+  </div>
+</div>

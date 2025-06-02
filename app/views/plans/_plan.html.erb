@@ -1,0 +1,19 @@
+<div id="<%= dom_id plan %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= plan.name %></h5>
+
+    <p class="card-text">
+      <strong>Price:</strong> <%= number_to_currency(plan.price) %>
+    </p>
+
+    <p class="card-text">
+      <strong>Duration:</strong> <%= plan.duration %> <%= "day".pluralize(plan.duration) %>
+    </p>
+
+    <% if plan.description.present? %>
+      <p class="card-text">
+        <strong>Description:</strong> <%= simple_format(plan.description) %>
+      </p>
+    <% end %>
+  </div>
+</div>

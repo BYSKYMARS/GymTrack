@@ -1,0 +1,28 @@
+<%= form_with(model: user_activity, local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.label :activity_id, "Actividad", class: "form-label" %>
+    <%= form.collection_select :activity_id, Activity.all.order(:name), :id, :name, { prompt: "Seleccione una actividad" }, { class: "form-select", required: true } %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :duration, class: "form-label" %>
+    <%= form.number_field :duration, class: "form-control", required: true, min: 1 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :date, class: "form-label" %>
+    <%= form.date_field :date, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :calories_burned, "Calorías quemadas", class: "form-label" %>
+    <%= form.number_field :calories_burned, class: "form-control", min: 0 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :notes, "Notas", class: "form-label" %>
+    <%= form.text_area :notes, class: "form-control", rows: 3 %>
+  </div>
+
+  <%= form.submit "Guardar", class: "btn btn-primary" %>
+<% end %>

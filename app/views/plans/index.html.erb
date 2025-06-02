@@ -1,0 +1,17 @@
+<h1>Planes disponibles</h1>
+
+<% @plans.each do |plan| %>
+  <div class="plan-card">
+    <h2><%= plan.name %></h2>
+    <p>Precio: $<%= plan.price %></p>
+    <p>Duración: <%= plan.duration %> días</p>
+    <p><%= plan.description %></p>
+
+    <% if current_user.active_plan? %>
+      <p><strong>Ya tienes un plan activo.</strong></p>
+    <% else %>
+      <%= button_to "Activar este plan", subscribe_plan_path(plan), method: :post %>
+    <% end %>
+  </div>
+  <hr>
+<% end %>

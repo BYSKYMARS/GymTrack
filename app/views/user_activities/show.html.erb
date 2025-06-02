@@ -1,0 +1,15 @@
+<% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div class="card mb-3 p-3">
+  <%= render @user_activity %>
+</div>
+
+<div class="d-flex gap-2">
+  <%= link_to "Editar esta actividad", edit_user_activity_path(@user_activity), class: "btn btn-primary" %>
+  <%= link_to "Volver a mis actividades", user_activities_path, class: "btn btn-secondary" %>
+  <%= button_to "Eliminar esta actividad", @user_activity, method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+</div>

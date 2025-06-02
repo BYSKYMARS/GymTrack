@@ -1,0 +1,12 @@
+<% content_for :title, "Editing user activity" %>
+
+<h1>Editing user activity</h1>
+
+<%= render "form", user_activity: @user_activity %>
+
+<br>
+
+<div>
+  <%= link_to "Show this user activity", @user_activity, class: "btn btn-primary me-2" %> |
+  <%= link_to "Back to user activities", user_activities_path, class: "btn btn-secondary" %>
+</div>

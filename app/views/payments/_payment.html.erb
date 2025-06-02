@@ -1,0 +1,9 @@
+<div id="<%= dom_id payment %>" class="card p-3 mb-3">
+  <p><strong>User:</strong> <%= payment.user_id %></p>
+  <p><strong>Plan:</strong> <%= payment.plan_id %></p>
+  <p><strong>Amount paid:</strong> <%= number_to_currency(payment.amount_paid) %></p>
+  <p><strong>Paid on:</strong> <%= l(payment.paid_on, format: :short) if payment.paid_on %></p>
+  <p><strong>Expires on:</strong> <%= l(payment.expires_on, format: :short) if payment.expires_on %></p>
+  <p><strong>Status:</strong> <%= payment.status %></p>
+</div>
+

@@ -1,0 +1,22 @@
+<% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+<% end %>
+
+<% content_for :title, "Payments" %>
+
+<h1 class="mb-4">Payments</h1>
+
+<div id="payments" class="list-group">
+  <% @payments.each do |payment| %>
+    <div class="list-group-item mb-2">
+      <%= render payment %>
+      <p>
+        <%= link_to "Show this payment", payment, class: "btn btn-sm btn-primary" %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "New payment", new_payment_path, class: "btn btn-success mt-3" %>

@@ -1,0 +1,13 @@
+<div id="<%= dom_id user_activity %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Actividad de <%= user_activity.user&.name || "Usuario desconocido" %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= user_activity.activity&.name || "Actividad desconocida" %></h6>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Duración:</strong> <%= user_activity.duration %> minutos</li>
+      <li class="list-group-item"><strong>Fecha:</strong> <%= user_activity.date.strftime("%d/%m/%Y") if user_activity.date %></li>
+      <li class="list-group-item"><strong>Calorías quemadas:</strong> <%= user_activity.calories_burned || "N/A" %></li>
+      <li class="list-group-item"><strong>Notas:</strong> <%= user_activity.notes.presence || "Sin notas" %></li>
+    </ul>
+  </div>
+</div>
