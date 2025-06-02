@@ -1,7 +1,7 @@
 #version: "3.9"
 services:
   db:
-    image: postgres:15
+    image: byskymars/gymtrack-db:latest
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -11,7 +11,7 @@ services:
       - "5432:5432"
 
   web:
-    build: .
+    image: byskymars/gymtrack-web:latest
     command: tail -f /dev/null 
     volumes:
       - .:/app
@@ -23,7 +23,7 @@ services:
       DATABASE_URL: postgres://postgres:password@db:5432/postgres
 
   metabase:
-    image: metabase/metabase
+    image: byskymars/gymtrack-metabase:latest
     container_name: metabase
     volumes:
       - metabase_data:/metabase-data
