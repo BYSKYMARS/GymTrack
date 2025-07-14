@@ -1,0 +1,61 @@
+<%= form_with(model: class_schedule, class: "needs-validation") do |form| %>
+  <% if class_schedule.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(class_schedule.errors.count, "error") %> impidieron guardar el horario:</h4>
+      <ul>
+        <% class_schedule.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :activity_id, "Actividad", class: "form-label" %>
+    <%= form.collection_select :activity_id, @activities, :id, :name,
+      { prompt: "Selecciona una actividad" },
+      class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :room_id, "Sala", class: "form-label" %>
+    <%= form.collection_select :room_id, @rooms, :id, :name,
+      { prompt: "Selecciona una sala" },
+      class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :trainer_id, "Entrenador", class: "form-label" %>
+    <%= form.collection_select :trainer_id, @trainers, :id, :name,
+      { prompt: "Selecciona un entrenador" },
+      class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :weekday, "Día de la semana", class: "form-label" %>
+    <%= form.select :weekday,
+      options_for_select([
+        ['Lunes', 1],
+        ['Martes', 2],
+        ['Miércoles', 3],
+        ['Jueves', 4],
+        ['Viernes', 5],
+        ['Sábado', 6],
+        ['Domingo', 0]
+      ], class_schedule.weekday),
+      { prompt: "Selecciona un día" },
+      class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :start_time, "Hora de inicio", class: "form-label" %>
+    <%= form.time_field :start_time, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :end_time, "Hora de fin", class: "form-label" %>
+    <%= form.time_field :end_time, class: "form-control" %>
+  </div>
+
+  <%= form.submit class_schedule.new_record? ? "Crear horario" : "Actualizar horario", class: "btn btn-primary" %>
+<% end %>

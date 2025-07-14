@@ -1,0 +1,20 @@
+<div id="<%= dom_id attendance %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Asistencia registrada</h5>
+
+    <p class="card-text">
+      <strong>Usuario:</strong>
+      <%= attendance.user.name %>
+    </p>
+
+    <p class="card-text">
+      <strong>Sesión de clase:</strong>
+      <%= attendance.class_session.activity.name %> - <%= l(attendance.class_session.starts_at, format: :long) %>
+    </p>
+
+    <p class="card-text">
+      <strong>Fecha de asistencia:</strong>
+      <%= l(attendance.attended_at, format: :long) %>
+    </p>
+  </div>
+</div>

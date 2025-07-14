@@ -1,0 +1,12 @@
+<% content_for :title, "Editar sesión de clase" %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Editar sesión de clase</h1>
+
+  <%= render "form", class_session: @class_session %>
+
+  <div class="mt-4">
+    <%= link_to "Ver esta sesión", @class_session, class: "btn btn-outline-secondary me-2" %>
+    <%= link_to "Volver a sesiones", class_sessions_path, class: "btn btn-outline-primary" %>
+  </div>
+</div>

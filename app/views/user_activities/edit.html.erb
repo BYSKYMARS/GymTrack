@@ -1,12 +1,14 @@
-<% content_for :title, "Editing user activity" %>
+<% content_for :title, "Editar actividad del usuario" %>
 
-<h1>Editing user activity</h1>
+<h1 class="mb-4">Editar actividad del usuario</h1>
 
-<%= render "form", user_activity: @user_activity %>
+<div class="card mb-4">
+  <div class="card-body">
+    <%= render "form", user_activity: @user_activity %>
+  </div>
+</div>
 
-<br>
-
-<div>
-  <%= link_to "Show this user activity", @user_activity, class: "btn btn-primary me-2" %> |
-  <%= link_to "Back to user activities", user_activities_path, class: "btn btn-secondary" %>
+<div class="d-flex justify-content-between">
+  <%= link_to "Ver esta actividad", @user_activity, class: "btn btn-outline-primary" %>
+  <%= link_to "Volver a la lista", user_activities_path, class: "btn btn-outline-secondary" %>
 </div>

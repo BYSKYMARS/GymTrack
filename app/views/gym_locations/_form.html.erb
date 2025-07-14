@@ -1,0 +1,31 @@
+<%= form_with(model: gym_location, local: true, html: { class: "needs-validation" }) do |form| %>
+  <% if gym_location.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(gym_location.errors.count, "error") %> impidieron guardar la sede:</h4>
+      <ul>
+        <% gym_location.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :address, "Dirección", class: "form-label" %>
+    <%= form.text_field :address, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :city_id, "Ciudad", class: "form-label" %>
+    <%= form.collection_select :city_id, @cities, :id, :name, { prompt: "Selecciona una ciudad" }, { class: "form-select" } %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit "Guardar", class: "btn btn-primary w-100" %>
+  </div>
+<% end %>

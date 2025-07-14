@@ -1,11 +1,11 @@
-<% content_for :title, "Nueva actividad" %>
+<% content_for :title, "Registrar nueva actividad" %>
 
-<div class="container mt-4">
-  <h1 class="mb-4">Registrar nueva actividad</h1>
+<h1 class="mb-4">Registrar nueva actividad</h1>
 
+<div class="mb-4">
   <%= render "form", user_activity: @user_activity %>
+</div>
 
-  <div class="mt-3">
-    <%= link_to "Volver a mis actividades", user_activities_path, class: "btn btn-secondary" %>
-  </div>
+<div>
+  <%= link_to "Volver a actividades", user_activities_path, class: "btn btn-secondary" %>
 </div>

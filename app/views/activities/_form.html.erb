@@ -1,10 +1,10 @@
-<%= form_with(model: activity, local: true) do |form| %>
+<%= form_with(model: activity, local: true, html: { class: "needs-validation" }) do |form| %>
   <% if activity.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(activity.errors.count, "error") %> prohibieron guardar esta actividad:</h4>
-      <ul>
-        <% activity.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+      <h4 class="alert-heading"><%= pluralize(activity.errors.count, "error") %> impidieron guardar la actividad:</h4>
+      <ul class="mb-0">
+        <% activity.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
@@ -12,21 +12,15 @@
 
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, class: "form-control" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
   <div class="mb-3">
     <%= form.label :category, class: "form-label" %>
-    <%= form.text_field :category, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :description, class: "form-label" %>
-    <%= form.text_area :description, class: "form-control", rows: 3 %>
+    <%= form.text_field :category, class: "form-control", required: true %>
   </div>
 
   <div>
-    <%= form.submit "Guardar actividad", class: "btn btn-primary" %>
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
-

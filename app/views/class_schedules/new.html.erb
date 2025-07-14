@@ -1,0 +1,15 @@
+<% content_for :title, "Nuevo horario de clase" %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Nuevo horario de clase</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", class_schedule: @class_schedule %>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to "Volver a horarios", class_schedules_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

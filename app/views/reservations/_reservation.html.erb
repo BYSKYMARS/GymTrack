@@ -1,0 +1,11 @@
+<div id="<%= dom_id reservation %>" class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0">Detalle de la Reserva</h5>
+  </div>
+  <div class="card-body">
+    <p><strong>Usuario:</strong> <%= reservation.user.name rescue "ID: #{reservation.user_id}" %></p>
+    <p><strong>Clase:</strong> <%= reservation.class_session.activity.name rescue "ID: #{reservation.class_session_id}" %></p>
+    <p><strong>Estado:</strong> <%= reservation.status.capitalize %></p>
+    <p><strong>Reservado en:</strong> <%= l(reservation.booked_at, format: :long) %></p>
+  </div>
+</div>

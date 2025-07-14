@@ -1,29 +1,30 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # Devise (agrega los módulos que uses)
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :payments, dependent: :destroy
-  
-  has_many :user_activities, dependent: :destroy
-  has_many :activities, through: :user_activities
-  
+
+  # Relaciones
+  belongs_to :gym_location
   belongs_to :plan, optional: true
 
-  def user?
+  has_many :payments, dependent: :destroy
+  has_many :user_activities, dependent: :destroy
+  has_many :activities, through: :user_activities
+
+  has_many :reservations, dependent: :destroy
+  has_many :attendances, dependent: :destroy
+
+  # Validaciones
+  validates :name, presence: true
+  validates :role, presence: true, inclusion: { in: [0, 1] }
+
+
+  # Métodos de rol (sin usar enum)
+  def ceo?
     role == 0
   end
 
-  def ceo?
+  def user?
     role == 1
   end
-  after_initialize :set_default_role, if: :new_record?
-  def set_default_role
-    self.role ||= 0
-  end
-  def active_plan?
-    payments.where("expires_on >= ?", Date.today).where(status: "active").exists?
-  end
-  
-  validates :name, presence: true
 end

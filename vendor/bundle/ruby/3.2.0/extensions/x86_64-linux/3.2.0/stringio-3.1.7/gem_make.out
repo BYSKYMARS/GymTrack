@@ -4,16 +4,16 @@ checking for rb_io_mode_t in ruby/io.h... no
 creating Makefile
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/stringio-3.1.7/ext/stringio
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-vsv96h sitelibdir\=./.gem.20250602-1364-vsv96h clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-zeoqc8 sitelibdir\=./.gem.20250712-50-zeoqc8 clean
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/stringio-3.1.7/ext/stringio
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-vsv96h sitelibdir\=./.gem.20250602-1364-vsv96h
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-zeoqc8 sitelibdir\=./.gem.20250712-50-zeoqc8
 compiling stringio.c
 linking shared-object stringio.so
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/stringio-3.1.7/ext/stringio
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-vsv96h sitelibdir\=./.gem.20250602-1364-vsv96h install
-/usr/bin/install -c -m 0755 stringio.so ./.gem.20250602-1364-vsv96h
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-zeoqc8 sitelibdir\=./.gem.20250712-50-zeoqc8 install
+/usr/bin/install -c -m 0755 stringio.so ./.gem.20250712-50-zeoqc8
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/stringio-3.1.7/ext/stringio
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-vsv96h sitelibdir\=./.gem.20250602-1364-vsv96h clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-zeoqc8 sitelibdir\=./.gem.20250712-50-zeoqc8 clean

@@ -13,10 +13,10 @@ checking for whether -DSTR_UMINUS_DEDUPE_FROZEN=1 is accepted as CFLAGS... yes
 creating Makefile
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/msgpack-1.8.0/ext/msgpack
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-cpmgdr sitelibdir\=./.gem.20250602-1364-cpmgdr clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-50dndp sitelibdir\=./.gem.20250712-50-50dndp clean
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/msgpack-1.8.0/ext/msgpack
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-cpmgdr sitelibdir\=./.gem.20250602-1364-cpmgdr
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-50dndp sitelibdir\=./.gem.20250712-50-50dndp
 compiling buffer.c
 compiling buffer_class.c
 compiling extension_value_class.c
@@ -32,8 +32,8 @@ compiling unpacker_ext_registry.c
 linking shared-object msgpack/msgpack.so
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/msgpack-1.8.0/ext/msgpack
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-cpmgdr sitelibdir\=./.gem.20250602-1364-cpmgdr install
-/usr/bin/install -c -m 0755 msgpack.so ./.gem.20250602-1364-cpmgdr/msgpack
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-50dndp sitelibdir\=./.gem.20250712-50-50dndp install
+/usr/bin/install -c -m 0755 msgpack.so ./.gem.20250712-50-50dndp/msgpack
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/msgpack-1.8.0/ext/msgpack
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-cpmgdr sitelibdir\=./.gem.20250602-1364-cpmgdr clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-50dndp sitelibdir\=./.gem.20250712-50-50dndp clean

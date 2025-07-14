@@ -40,6 +40,17 @@ services:
     depends_on:
       - db
 
+  pgadmin:
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@gymtrack.com
+        PGADMIN_DEFAULT_PASSWORD: admin
+      ports:
+        - "5050:80"
+  dbgate:
+    image: dbgate/dbgate
+    ports:
+      - "3030:3000"
 volumes:
   db_data:
   metabase_data:

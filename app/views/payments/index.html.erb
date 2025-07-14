@@ -1,22 +1,37 @@
+<% content_for :title, "Pagos" %>
+
+<h1 class="mb-4">Historial de Pagos</h1>
+
 <% if notice %>
-  <div class="alert alert-success" role="alert">
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
 <% end %>
 
-<% content_for :title, "Payments" %>
+<div class="mb-4">
+  <%= link_to "Nuevo pago", new_payment_path, class: "btn btn-primary" %>
+</div>
 
-<h1 class="mb-4">Payments</h1>
-
-<div id="payments" class="list-group">
+<div class="row row-cols-1 row-cols-md-2 g-4">
   <% @payments.each do |payment| %>
-    <div class="list-group-item mb-2">
-      <%= render payment %>
-      <p>
-        <%= link_to "Show this payment", payment, class: "btn btn-sm btn-primary" %>
-      </p>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Pago de <%= payment.user.name rescue "Usuario ##{payment.user_id}" %></h5>
+          <p class="card-text">
+            <strong>Plan:</strong> <%= payment.plan.name rescue "Plan ##{payment.plan_id}" %><br>
+            <strong>Monto:</strong> $<%= payment.amount_paid %><br>
+            <strong>Pagado el:</strong> <%= l(payment.paid_on) %><br>
+            <strong>Vence el:</strong> <%= l(payment.expires_on) %><br>
+            <strong>Estado:</strong> <%= payment.status.capitalize %>
+          </p>
+        </div>
+        <div class="card-footer text-end">
+          <%= link_to "Ver", payment_path(payment), class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Editar", edit_payment_path(payment), class: "btn btn-outline-secondary btn-sm" %>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
-
-<%= link_to "New payment", new_payment_path, class: "btn btn-success mt-3" %>

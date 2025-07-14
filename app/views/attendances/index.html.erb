@@ -1,0 +1,25 @@
+<% content_for :title, "Asistencias" %>
+
+<div class="container mt-4">
+  <% if notice %>
+    <div class="alert alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <h1 class="mb-4">Asistencias registradas</h1>
+
+  <div class="list-group mb-4">
+    <% @attendances.each do |attendance| %>
+      <div class="list-group-item">
+        <p><strong>Usuario:</strong> <%= attendance.user.name rescue "ID #{attendance.user_id}" %></p>
+        <p><strong>Sesión de clase:</strong> <%= attendance.class_session.activity.name rescue "ID #{attendance.class_session_id}" %></p>
+        <p><strong>Fecha y hora:</strong> <%= l(attendance.attended_at, format: :long) %></p>
+
+        <%= link_to "Ver detalle", attendance_path(attendance), class: "btn btn-sm btn-outline-info mt-2" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "Registrar nueva asistencia", new_attendance_path, class: "btn btn-primary" %>
+</div>

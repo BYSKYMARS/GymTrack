@@ -1,30 +1,44 @@
 Rails.application.routes.draw do
-  get "dashboards/ceo"
-  get "dashboards/user"
-  resources :user_activities
-  resources :activities
-  resources :payments
-  resources :plans
-  # devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  get "ceo/dashboard", to: "dashboards#ceo", as: :ceo_dashboard
-  get "users/dashboard", to: "dashboards#user", as: :users_dashboard
-  resources :plans, only: [:index, :show] do
+  # Devise
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+
+  # Recursos principales
+  resources :cities
+  resources :gym_locations
+  resources :plans do
     post 'subscribe', on: :member
   end
   
-# Ruta raíz (por si quieres que lleve a login si no está logueado)
-  root to: "plans#index"
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  
+  resources :payments
+  resources :activities
+  resources :rooms
+  resources :staff_members
+  resources :user_activities
+  resources :class_sessions
+  resources :reservations
+  resources :attendances
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Horarios de clases + reserva desde schedule
+  resources :class_schedules do
+    post 'reserve', on: :member
+  end
+
+  # Dashboards por rol
+  get "dashboards/ceo", to: "dashboards#ceo", as: :ceo_dashboard
+  get "dashboards/user", to: "dashboards#user", as: :users_dashboard
+
+  # Rutas personalizadas con mapeo devise_scope
+  devise_scope :user do
+    authenticated :user do
+      root to: "dashboards#redirect_by_role", as: :authenticated_root
+    end
+
+    unauthenticated do
+      root to: "devise/sessions#new", as: :unauthenticated_root
+    end
+  end
+
+  # Ruta de salud
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

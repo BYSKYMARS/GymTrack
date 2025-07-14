@@ -1,7 +1,9 @@
-<%= form_with(model: plan, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+<%= form_with(model: plan, local: true, class: "needs-validation") do |form| %>
   <% if plan.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(plan.errors.count, "error") %> prohibited this plan from being saved:</h4>
+      <h4 class="alert-heading">
+        <%= pluralize(plan.errors.count, "error") %> impidieron guardar el plan:
+      </h4>
       <ul>
         <% plan.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,26 +13,29 @@
   <% end %>
 
   <div class="mb-3">
-    <%= form.label :name, class: "form-label" %>
+    <%= form.label :name, "Nombre del plan", class: "form-label" %>
     <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :price, class: "form-label" %>
-    <%= form.text_field :price, class: "form-control", required: true, pattern: '\d+(\.\d{1,2})?', title: "Solo números, opcional decimales" %>
+    <%= form.label :price, "Precio", class: "form-label" %>
+    <%= form.number_field :price, class: "form-control", step: 0.01, required: true %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :duration, class: "form-label" %>
-    <%= form.number_field :duration, class: "form-control", required: true, min: 1 %>
+    <%= form.label :duration, "Duración (en meses)", class: "form-label" %>
+    <%= form.select :duration,
+      options_for_select([[1, '1 mes'], [3, '3 meses'], [6, '6 meses'], [12, '12 meses']], plan.duration),
+      { prompt: "Selecciona duración" },
+      class: "form-select", required: true %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :description, class: "form-label" %>
-    <%= form.text_area :description, class: "form-control", rows: 3 %>
+    <%= form.label :description, "Descripción", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 4 %>
   </div>
 
-  <div>
-    <%= form.submit "Save Plan", class: "btn btn-primary" %>
+  <div class="mb-3">
+    <%= form.submit "Guardar plan", class: "btn btn-primary" %>
   </div>
 <% end %>

@@ -1,6 +1,10 @@
 class PlansController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_plan, only: [:show, :subscribe]
+  before_action :set_plan, only: %i[ show edit update destroy subscribe ]
+  before_action :authorize_ceo!, only: [:new, :create, :edit, :update, :destroy]
+
+  
+  
   
   # GET /plans or /plans.json
   def index
@@ -59,30 +63,39 @@ class PlansController < ApplicationController
   end
 
   def subscribe
-    if current_user.active_plan?
-      redirect_to plans_path, alert: "Ya tienes un plan activo."
-      return
-    end
+    @plan = Plan.find(params[:id])
+    
+    ActiveRecord::Base.transaction do
+      current_user.update!(plan: @plan)
   
-    payment = current_user.payments.create!(
-      plan: @plan,
-      amount_paid: @plan.price,
-      paid_on: Date.today,
-      expires_on: Date.today + @plan.duration.days,
-      status: "active"
-    )
-  
-    redirect_to users_dashboard_path, notice: "Plan activado correctamente: #{@plan.name}"
-  end
+      Payment.create!(
+        user: current_user,
+        plan: @plan,
+        amount_paid: @plan.price,
+        paid_on: Date.today,
+        expires_on: Date.today + @plan.duration.months,
+        status: 'paid'
+      )
 
+  end
+  
+    redirect_to users_dashboard_path, notice: "Te has suscrito al plan #{@plan.name}."
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to plans_path, alert: "Error al suscribirte: #{e.message}"
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plan
       @plan = Plan.find(params.expect(:id))
     end
-
+    def authorize_ceo!
+      unless current_user&.ceo?
+        redirect_to authenticated_root_path, alert: "Acceso denegado"
+      end
+    end
     # Only allow a list of trusted parameters through.
     def plan_params
-      params.expect(plan: [ :name, :price, :duration, :description ])
+      params.require(:plan).permit(:name, :price, :duration, :description)
     end
 end

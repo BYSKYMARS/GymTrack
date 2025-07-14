@@ -1,14 +1,24 @@
-<% if notice %>
-  <div class="alert alert-success"><%= notice %></div>
-<% end %>
+<% content_for :title, @activity.name %>
 
 <div class="container mt-4">
-  <%= render @activity %>
+  <% if notice %>
+    <div class="alert alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-header">
+      <h2><%= @activity.name %></h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Categoría:</strong> <%= @activity.category %></p>
+    </div>
+  </div>
 
   <div class="mt-3">
-    <%= link_to "Editar esta actividad", edit_activity_path(@activity), class: "btn btn-primary me-2" %>
-    <%= link_to "Volver a actividades", activities_path, class: "btn btn-secondary me-2" %>
-
-    <%= button_to "Eliminar esta actividad", @activity, method: :delete, data: { confirm: "¿Seguro que quieres eliminar esta actividad?" }, class: "btn btn-danger" %>
+    <%= link_to "Editar", edit_activity_path(@activity), class: "btn btn-primary" %>
+    <%= link_to "Volver a actividades", activities_path, class: "btn btn-secondary" %>
+    <%= button_to "Eliminar", @activity, method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
   </div>
 </div>

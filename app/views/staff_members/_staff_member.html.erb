@@ -1,0 +1,15 @@
+<div id="<%= dom_id staff_member %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= staff_member.name %></h5>
+    
+    <p class="card-text">
+      <strong>Email:</strong> <%= staff_member.email %><br>
+      <strong>Rol:</strong> <%= staff_member.role %><br>
+      <strong>Sede:</strong> <%= staff_member.gym_location.name if staff_member.gym_location %>
+    </p>
+    
+    <%= link_to "Ver", staff_member_path(staff_member), class: "btn btn-sm btn-outline-primary" %>
+    <%= link_to "Editar", edit_staff_member_path(staff_member), class: "btn btn-sm btn-outline-secondary" %>
+    <%= button_to "Eliminar", staff_member_path(staff_member), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-outline-danger" %>
+  </div>
+</div>

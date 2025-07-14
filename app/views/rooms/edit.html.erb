@@ -1,0 +1,12 @@
+<% content_for :title, "Editar Sala" %>
+
+<div class="container">
+  <h1 class="mb-4">Editar Sala</h1>
+
+  <%= render "form", room: @room %>
+
+  <div class="mt-4">
+    <%= link_to "Ver esta sala", @room, class: "btn btn-outline-primary me-2" %>
+    <%= link_to "Volver a salas", rooms_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

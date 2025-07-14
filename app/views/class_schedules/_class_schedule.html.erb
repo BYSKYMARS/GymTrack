@@ -1,0 +1,15 @@
+<div id="<%= dom_id class_schedule %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= class_schedule.activity.name %> - 
+      <%= Date::DAYNAMES[class_schedule.weekday % 7] %>
+    </h5>
+
+    <p class="card-text">
+      <strong>Sala:</strong> <%= class_schedule.room.name %><br>
+      <strong>Entrenador:</strong> <%= class_schedule.trainer.name %><br>
+      <strong>Inicio:</strong> <%= class_schedule.start_time.strftime("%H:%M") %><br>
+      <strong>Fin:</strong> <%= class_schedule.end_time.strftime("%H:%M") %>
+    </p>
+  </div>
+</div>

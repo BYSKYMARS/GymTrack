@@ -1,0 +1,19 @@
+<% content_for :title, "Detalle de la sede" %>
+
+<div class="container">
+  <p class="text-success"><%= notice %></p>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title"><strong>Sede:</strong> <%= @gym_location.name %></h5>
+      <p class="card-text"><strong>Dirección:</strong> <%= @gym_location.address %></p>
+      <p class="card-text"><strong>Ciudad:</strong> <%= @gym_location.city.name %></p>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= link_to "Editar esta sede", edit_gym_location_path(@gym_location), class: "btn btn-outline-primary" %>
+    <%= link_to "Volver a sedes", gym_locations_path, class: "btn btn-outline-secondary" %>
+    <%= button_to "Eliminar esta sede", @gym_location, method: :delete, data: { confirm: "¿Estás seguro de eliminar esta sede?" }, class: "btn btn-outline-danger" %>
+  </div>
+</div>

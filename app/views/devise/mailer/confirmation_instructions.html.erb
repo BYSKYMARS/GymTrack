@@ -1,9 +1,22 @@
-<div class="container mt-4">
-  <p class="lead">Welcome <strong><%= @email %></strong>!</p>
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+  <h2 style="color: #2c3e50;">¡Hola <%= @email %>!</h2>
 
-  <p>You can confirm your account email through the link below:</p>
+  <p style="font-size: 16px; color: #333;">
+    Gracias por registrarte en nuestro sistema. Para completar tu registro y activar tu cuenta, haz clic en el siguiente botón:
+  </p>
 
-  <p>
-    <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token), class: "btn btn-success" %>
+  <p style="text-align: center; margin: 30px 0;">
+    <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+      Confirmar mi cuenta
+    </a>
+  </p>
+
+  <p style="font-size: 14px; color: #777;">
+    Si tú no creaste esta cuenta, puedes ignorar este mensaje.
+  </p>
+
+  <hr style="margin-top: 40px;">
+  <p style="font-size: 12px; color: #999;">
+    Este mensaje fue enviado automáticamente por el sistema. No respondas a este correo.
   </p>
 </div>

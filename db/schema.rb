@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_224937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -41,7 +41,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
   create_table "activities", force: :cascade do |t|
     t.string "name"
     t.string "category"
-    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -70,6 +69,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.timestamptz "created_at", null: false
     t.text "remark"
     t.index ["user_id"], name: "idx_application_permissions_revision_user_id"
+  end
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "class_session_id", null: false
+    t.datetime "attended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_session_id"], name: "index_attendances_on_class_session_id"
+    t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
   create_table "audit_log", id: :integer, default: nil, comment: "Used to store application events for auditing use cases", force: :cascade do |t|
@@ -143,6 +152,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.text "details", comment: "the details of the template"
     t.timestamptz "created_at", null: false, comment: "The timestamp of when the template was created"
     t.timestamptz "updated_at", null: false, comment: "The timestamp of when the template was last updated"
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.timestamptz "created_at", null: false
+    t.timestamptz "updated_at", null: false
+  end
+
+  create_table "class_schedules", force: :cascade do |t|
+    t.bigint "activity_id", null: false
+    t.bigint "room_id", null: false
+    t.bigint "trainer_id", null: false
+    t.integer "weekday"
+    t.time "start_time"
+    t.time "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_class_schedules_on_activity_id"
+    t.index ["room_id"], name: "index_class_schedules_on_room_id"
+    t.index ["trainer_id"], name: "index_class_schedules_on_trainer_id"
+  end
+
+  create_table "class_sessions", force: :cascade do |t|
+    t.bigint "class_schedule_id", null: false
+    t.bigint "activity_id", null: false
+    t.bigint "room_id", null: false
+    t.bigint "trainer_id", null: false
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer "max_participants"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_class_sessions_on_activity_id"
+    t.index ["class_schedule_id"], name: "index_class_sessions_on_class_schedule_id"
+    t.index ["room_id"], name: "index_class_sessions_on_room_id"
+    t.index ["trainer_id"], name: "index_class_sessions_on_trainer_id"
   end
 
   create_table "cloud_migration", id: { type: :integer, comment: "Unique ID", default: nil }, comment: "Migrate to cloud directly from Metabase", force: :cascade do |t|
@@ -349,6 +394,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.timestamptz "created_at", default: -> { "now()" }, null: false, comment: "The time a field usage was recorded"
     t.index ["field_id"], name: "idx_field_usage_field_id"
     t.index ["query_execution_id"], name: "idx_field_usage_query_execution_id"
+  end
+
+  create_table "gym_locations", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.bigint "city_id", null: false
+    t.timestamptz "created_at", null: false
+    t.timestamptz "updated_at", null: false
+    t.index ["city_id"], name: "index_gym_locations_on_city_id"
   end
 
   create_table "http_action", primary_key: "action_id", id: { type: :integer, comment: "The related action", default: nil }, comment: "An http api call type of action", force: :cascade do |t|
@@ -656,8 +710,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.bigint "user_id", null: false
     t.bigint "plan_id", null: false
     t.decimal "amount_paid"
-    t.datetime "paid_on"
-    t.datetime "expires_on"
+    t.date "paid_on"
+    t.date "expires_on"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -732,8 +786,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.decimal "price"
     t.integer "duration"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.timestamptz "created_at", null: false
+    t.timestamptz "updated_at", null: false
   end
 
   create_table "pulse", id: :integer, default: nil, force: :cascade do |t|
@@ -1132,6 +1186,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.unique_constraint ["entity_id"], name: "report_dashboardcard_entity_id_key"
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "class_session_id", null: false
+    t.string "status"
+    t.datetime "booked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_session_id"], name: "index_reservations_on_class_session_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
   create_table "revision", id: :integer, default: nil, force: :cascade do |t|
     t.string "model", limit: 16, null: false
     t.integer "model_id", null: false
@@ -1146,6 +1211,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.index ["model", "model_id"], name: "idx_revision_model_model_id"
     t.index ["most_recent"], name: "idx_revision_most_recent"
     t.index ["user_id"], name: "idx_revision_user_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.integer "capacity"
+    t.bigint "gym_location_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gym_location_id"], name: "index_rooms_on_gym_location_id"
   end
 
   create_table "sandboxes", id: :integer, default: nil, force: :cascade do |t|
@@ -1204,6 +1278,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
 
   create_table "setting", primary_key: "key", id: { type: :string, limit: 254 }, force: :cascade do |t|
     t.text "value", null: false
+  end
+
+  create_table "staff_members", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "role"
+    t.bigint "gym_location_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gym_location_id"], name: "index_staff_members_on_gym_location_id"
   end
 
   create_table "table_privileges", id: false, comment: "Table for user and role privileges by table", force: :cascade do |t|
@@ -1268,8 +1352,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.bigint "activity_id", null: false
     t.integer "duration"
     t.date "date"
-    t.integer "calories_burned"
-    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["activity_id"], name: "index_user_activities_on_activity_id"
@@ -1307,9 +1389,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.integer "role", default: 0, null: false
-    t.integer "plan_id"
+    t.integer "role", default: 1, null: false
+    t.bigint "gym_location_id", null: false
+    t.bigint "plan_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["gym_location_id"], name: "index_users_on_gym_location_id"
+    t.index ["plan_id"], name: "index_users_on_plan_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -1336,11 +1421,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
   add_foreign_key "api_key", "core_user", column: "updated_by_id", name: "fk_api_key_updated_by_id_user_id"
   add_foreign_key "api_key", "core_user", column: "user_id", name: "fk_api_key_user_id"
   add_foreign_key "application_permissions_revision", "core_user", column: "user_id", name: "fk_general_permissions_revision_user_id"
+  add_foreign_key "attendances", "class_sessions"
+  add_foreign_key "attendances", "users"
   add_foreign_key "bookmark_ordering", "core_user", column: "user_id", name: "fk_bookmark_ordering_user_id", on_delete: :cascade
   add_foreign_key "card_bookmark", "core_user", column: "user_id", name: "fk_card_bookmark_user_id", on_delete: :cascade
   add_foreign_key "card_bookmark", "report_card", column: "card_id", name: "fk_card_bookmark_dashboard_id", on_delete: :cascade
   add_foreign_key "card_label", "label", name: "fk_card_label_ref_label_id", on_delete: :cascade
   add_foreign_key "card_label", "report_card", column: "card_id", name: "fk_card_label_ref_card_id", on_delete: :cascade
+  add_foreign_key "class_schedules", "activities"
+  add_foreign_key "class_schedules", "rooms"
+  add_foreign_key "class_schedules", "staff_members", column: "trainer_id"
+  add_foreign_key "class_sessions", "activities"
+  add_foreign_key "class_sessions", "class_schedules"
+  add_foreign_key "class_sessions", "rooms"
+  add_foreign_key "class_sessions", "staff_members", column: "trainer_id"
   add_foreign_key "collection", "core_user", column: "personal_owner_id", name: "fk_collection_personal_owner_id", on_delete: :cascade
   add_foreign_key "collection_bookmark", "collection", name: "fk_collection_bookmark_collection_id", on_delete: :cascade
   add_foreign_key "collection_bookmark", "core_user", column: "user_id", name: "fk_collection_bookmark_user_id", on_delete: :cascade
@@ -1362,6 +1456,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
   add_foreign_key "dimension", "metabase_field", column: "human_readable_field_id", name: "fk_dimension_displayfk_ref_field_id", on_delete: :cascade
   add_foreign_key "field_usage", "metabase_field", column: "field_id", name: "fk_field_usage_field_id_metabase_field_id", on_delete: :cascade
   add_foreign_key "field_usage", "query_execution", name: "fk_field_usage_query_execution_id", on_delete: :cascade
+  add_foreign_key "gym_locations", "cities"
   add_foreign_key "http_action", "action", name: "fk_http_action_ref_action_id", on_delete: :cascade
   add_foreign_key "implicit_action", "action", name: "fk_implicit_action_action_id", on_delete: :cascade
   add_foreign_key "login_history", "core_session", column: "session_id", name: "fk_login_history_session_id", on_delete: :nullify
@@ -1441,13 +1536,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
   add_foreign_key "report_dashboardcard", "dashboard_tab", name: "fk_report_dashboardcard_ref_dashboard_tab_id", on_delete: :cascade
   add_foreign_key "report_dashboardcard", "report_card", column: "card_id", name: "fk_dashboardcard_ref_card_id", on_delete: :cascade
   add_foreign_key "report_dashboardcard", "report_dashboard", column: "dashboard_id", name: "fk_dashboardcard_ref_dashboard_id", on_delete: :cascade
+  add_foreign_key "reservations", "class_sessions"
+  add_foreign_key "reservations", "users"
   add_foreign_key "revision", "core_user", column: "user_id", name: "fk_revision_ref_user_id", on_delete: :cascade
+  add_foreign_key "rooms", "gym_locations"
   add_foreign_key "sandboxes", "metabase_table", column: "table_id", name: "fk_gtap_table_id", on_delete: :cascade
   add_foreign_key "sandboxes", "permissions_group", column: "group_id", name: "fk_gtap_group_id", on_delete: :cascade
   add_foreign_key "sandboxes", "report_card", column: "card_id", name: "fk_gtap_card_id", on_delete: :cascade
   add_foreign_key "secret", "core_user", column: "creator_id", name: "fk_secret_ref_user_id"
   add_foreign_key "segment", "core_user", column: "creator_id", name: "fk_segment_ref_creator_id", on_delete: :cascade
   add_foreign_key "segment", "metabase_table", column: "table_id", name: "fk_segment_ref_table_id", on_delete: :cascade
+  add_foreign_key "staff_members", "gym_locations"
   add_foreign_key "table_privileges", "metabase_table", column: "table_id", name: "fk_table_privileges_table_id", on_delete: :cascade
   add_foreign_key "timeline", "collection", name: "fk_timeline_collection_id", on_delete: :cascade
   add_foreign_key "timeline", "core_user", column: "creator_id", name: "fk_timeline_creator_id", on_delete: :cascade
@@ -1458,5 +1557,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_210059) do
   add_foreign_key "user_key_value", "core_user", column: "user_id", name: "fk_user_key_value_user_id"
   add_foreign_key "user_parameter_value", "core_user", column: "user_id", name: "fk_user_parameter_value_user_id", on_delete: :cascade
   add_foreign_key "user_parameter_value", "report_dashboard", column: "dashboard_id", name: "fk_user_parameter_value_dashboard_id", on_delete: :cascade
+  add_foreign_key "users", "gym_locations"
+  add_foreign_key "users", "plans"
   add_foreign_key "view_log", "core_user", column: "user_id", name: "fk_view_log_ref_user_id", on_delete: :cascade
 end

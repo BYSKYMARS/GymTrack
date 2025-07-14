@@ -1,0 +1,32 @@
+<% content_for :title, "Salas" %>
+
+<div class="container">
+  <h1 class="mb-4">Salas</h1>
+
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @rooms.each do |room| %>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= room.name %></h5>
+            <p class="card-text">
+              <strong>Capacidad:</strong> <%= room.capacity %><br>
+              <strong>Sede:</strong> <%= room.gym_location.name if room.gym_location %>
+            </p>
+            <%= link_to "Ver detalles", room_path(room), class: "btn btn-outline-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if current_user.ceo? %>
+    <div class="mt-4">
+      <%= link_to "Nueva sala", new_room_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

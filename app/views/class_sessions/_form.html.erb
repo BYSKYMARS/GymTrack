@@ -1,0 +1,51 @@
+<%= form_with(model: class_session, local: true, class: "mt-4") do |form| %>
+  <% if class_session.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(class_session.errors.count, "error") %> impidieron guardar la sesión:</h4>
+      <ul>
+        <% class_session.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :class_schedule_id, "Horario de clase", class: "form-label" %>
+    <%= form.number_field :class_schedule_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :activity_id, "Actividad", class: "form-label" %>
+    <%= form.number_field :activity_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :room_id, "Sala", class: "form-label" %>
+    <%= form.number_field :room_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :trainer_id, "Entrenador", class: "form-label" %>
+    <%= form.number_field :trainer_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :starts_at, "Inicio", class: "form-label" %>
+    <%= form.datetime_field :starts_at, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :ends_at, "Fin", class: "form-label" %>
+    <%= form.datetime_field :ends_at, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :max_participants, "Capacidad máxima", class: "form-label" %>
+    <%= form.number_field :max_participants, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Guardar sesión", class: "btn btn-primary" %>
+  </div>
+<% end %>

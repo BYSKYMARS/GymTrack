@@ -17,7 +17,7 @@ class UserActivitiesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user_activity" do
     assert_difference("UserActivity.count") do
-      post user_activities_url, params: { user_activity: { activity_id: @user_activity.activity_id, calories_burned: @user_activity.calories_burned, date: @user_activity.date, duration: @user_activity.duration, notes: @user_activity.notes, user_id: @user_activity.user_id } }
+      post user_activities_url, params: { user_activity: { activity_id: @user_activity.activity_id, date: @user_activity.date, duration: @user_activity.duration, user_id: @user_activity.user_id } }
     end
 
     assert_redirected_to user_activity_url(UserActivity.last)
@@ -34,7 +34,7 @@ class UserActivitiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user_activity" do
-    patch user_activity_url(@user_activity), params: { user_activity: { activity_id: @user_activity.activity_id, calories_burned: @user_activity.calories_burned, date: @user_activity.date, duration: @user_activity.duration, notes: @user_activity.notes, user_id: @user_activity.user_id } }
+    patch user_activity_url(@user_activity), params: { user_activity: { activity_id: @user_activity.activity_id, date: @user_activity.date, duration: @user_activity.duration, user_id: @user_activity.user_id } }
     assert_redirected_to user_activity_url(@user_activity)
   end
 

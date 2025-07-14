@@ -1,0 +1,31 @@
+<%= form_with(model: attendance, local: true, class: "needs-validation") do |form| %>
+  <% if attendance.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(attendance.errors.count, "error") %> impidieron guardar la asistencia:</h4>
+      <ul>
+        <% attendance.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :user_id, "Usuario", class: "form-label" %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :class_session_id, "Sesión de clase", class: "form-label" %>
+    <%= form.number_field :class_session_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :attended_at, "Fecha de asistencia", class: "form-label" %>
+    <%= form.datetime_field :attended_at, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit "Guardar asistencia", class: "btn btn-primary" %>
+  </div>
+<% end %>

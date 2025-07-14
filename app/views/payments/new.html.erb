@@ -1,9 +1,11 @@
-<% content_for :title, "New payment" %>
+<% content_for :title, "Nuevo pago" %>
 
-<h1 class="mb-4">New payment</h1>
+<div class="container">
+  <h1 class="mb-4">Registrar nuevo pago</h1>
 
-<%= render "form", payment: @payment %>
+  <div class="mb-4">
+    <%= render "form", payment: @payment %>
+  </div>
 
-<div class="mt-3">
-  <%= link_to "Back to payments", payments_path, class: "btn btn-secondary" %>
+  <%= link_to "Volver al listado de pagos", payments_path, class: "btn btn-secondary" %>
 </div>

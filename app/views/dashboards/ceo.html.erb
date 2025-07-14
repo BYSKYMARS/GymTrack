@@ -1,53 +1,108 @@
+<% content_for :title, "Dashboard del CEO" %>
+
 <div class="container mt-5">
-  <h1 class="mb-4 text-center">Panel del CEO</h1>
 
-  <div class="row text-center mb-4">
+  <div class="row mb-4">
+    <div class="col">
+      <h1 class="mb-3">Dashboard del CEO</h1>
+      <div class="alert alert-info">
+        <strong>Total de ingresos:</strong> $<%= @total_income %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Clases más populares
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @popular_activities.each do |activity| %>
+            <li class="list-group-item">
+              <%= activity.name %> - <%= activity.reservation_count %> reservas
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Entrenadores por sede
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @trainers_per_location.each do |location_id, count| %>
+            <li class="list-group-item">
+              <%= GymLocation.find(location_id).name %>: <%= count %> entrenadores
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
     <div class="col-md-4">
-      <div class="card shadow-sm">
+      <div class="card text-white bg-primary mb-3">
         <div class="card-body">
-          <h5 class="card-title">Usuarios Registrados</h5>
-          <p class="display-6"><%= @total_users %></p>
+          <h5 class="card-title">Usuarios registrados</h5>
+          <p class="card-text"><strong><%= @users_count %></strong></p>
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
-      <div class="card shadow-sm">
+      <div class="card text-white bg-success mb-3">
         <div class="card-body">
-          <h5 class="card-title">Pagos Activos</h5>
-          <p class="display-6"><%= @active_payments %></p>
+          <h5 class="card-title">Actividades</h5>
+          <p class="card-text"><strong><%= @activities_count %></strong></p>
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
-      <div class="card shadow-sm">
+      <div class="card text-white bg-warning mb-3">
         <div class="card-body">
-          <h5 class="card-title">Ingresos Totales</h5>
-          <p class="display-6">$<%= @total_income %></p>
+          <h5 class="card-title">Pagos</h5>
+          <p class="card-text"><strong><%= @payments_count %></strong></p>
         </div>
       </div>
     </div>
   </div>
 
-  <h3 class="mt-5 mb-3">Usuarios más activos</h3>
-  <ul class="list-group mb-4">
-    <% @most_active_users.each do |u| %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <%= u.name %>
-        <span class="badge bg-primary rounded-pill"><%= u.user_activities.count %> actividades</span>
-      </li>
-    <% end %>
-  </ul>
+  <hr>
 
-  <div class="mb-5">
-    <%= link_to "Gestionar Actividades", activities_path, class: "btn btn-primary" %>
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Administrar gimnasio</h2>
+      <div class="d-grid gap-2 d-md-flex">
+        <%= link_to "Gestionar Actividades", activities_path, class: "btn btn-outline-primary me-2" %>
+        <%= link_to "Gestionar Horarios de Clases", class_schedules_path, class: "btn btn-outline-primary me-2" %>
+        <%= link_to "Gestionar Entrenadores", staff_members_path, class: "btn btn-outline-primary" %>
+      </div>
+    </div>
   </div>
 
-  <h3 class="mb-3">Análisis en Metabase</h3>
-  <div class="ratio ratio-16x9 mb-5">
-    <iframe 
-      src="http://localhost:3001/public/dashboard/e9a2cb84-9036-46b5-b03f-b50097ae58e7"
-      frameborder="0"
-      allowfullscreen>
-    </iframe>
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Configuración de sedes y ciudades</h2>
+      <div class="d-grid gap-2 d-md-flex">
+        <%= link_to "Gestionar Sedes", gym_locations_path, class: "btn btn-outline-secondary me-2" %>
+        <%= link_to "Gestionar Ciudades", cities_path, class: "btn btn-outline-secondary" %>
+      </div>
+    </div>
   </div>
+
+  <div class="row mb-4">
+    <div class="col">
+      <h3>Reporte de ocupación</h3>
+      <div class="alert alert-secondary">
+        <p><strong>Clases llenas:</strong> <%= @full_classes.count %></p>
+        <p><strong>Clases vacías:</strong> <%= @empty_classes.count %></p>
+      </div>
+    </div>
+  </div>
+  
 </div>

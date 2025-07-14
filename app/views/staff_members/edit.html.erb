@@ -1,0 +1,16 @@
+<% content_for :title, "Editar miembro del staff" %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Editar miembro del staff</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", staff_member: @staff_member %>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex justify-content-between">
+    <%= link_to "Ver este miembro", @staff_member, class: "btn btn-outline-primary" %>
+    <%= link_to "Volver al listado", staff_members_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<%= form_with(model: city, class: "needs-validation") do |form| %>
+  <% if city.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(city.errors.count, "error") %> impidieron guardar la ciudad:</h4>
+      <ul>
+        <% city.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, "Nombre de la ciudad", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

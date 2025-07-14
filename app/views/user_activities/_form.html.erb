@@ -1,27 +1,33 @@
-<%= form_with(model: user_activity, local: true) do |form| %>
+<%= form_with(model: user_activity, local: true, class: "mt-4") do |form| %>
+  <% if user_activity.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(user_activity.errors.count, "error") %> impidieron guardar el registro:</h4>
+      <ul>
+        <% user_activity.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :user_id, "Usuario", class: "form-label" %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
   <div class="mb-3">
     <%= form.label :activity_id, "Actividad", class: "form-label" %>
-    <%= form.collection_select :activity_id, Activity.all.order(:name), :id, :name, { prompt: "Seleccione una actividad" }, { class: "form-select", required: true } %>
+    <%= form.number_field :activity_id, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :duration, class: "form-label" %>
-    <%= form.number_field :duration, class: "form-control", required: true, min: 1 %>
+    <%= form.label :duration, "Duración (minutos)", class: "form-label" %>
+    <%= form.number_field :duration, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :date, class: "form-label" %>
-    <%= form.date_field :date, class: "form-control", required: true %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :calories_burned, "Calorías quemadas", class: "form-label" %>
-    <%= form.number_field :calories_burned, class: "form-control", min: 0 %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :notes, "Notas", class: "form-label" %>
-    <%= form.text_area :notes, class: "form-control", rows: 3 %>
+    <%= form.label :date, "Fecha", class: "form-label" %>
+    <%= form.date_field :date, class: "form-control" %>
   </div>
 
   <%= form.submit "Guardar", class: "btn btn-primary" %>

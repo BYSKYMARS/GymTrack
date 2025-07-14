@@ -1,17 +1,36 @@
-<h1>Planes disponibles</h1>
+<% content_for :title, "Planes disponibles" %>
 
-<% @plans.each do |plan| %>
-  <div class="plan-card">
-    <h2><%= plan.name %></h2>
-    <p>Precio: $<%= plan.price %></p>
-    <p>Duración: <%= plan.duration %> días</p>
-    <p><%= plan.description %></p>
+<div class="container mt-4">
+  <h1 class="mb-4">Planes disponibles</h1>
 
-    <% if current_user.active_plan? %>
-      <p><strong>Ya tienes un plan activo.</strong></p>
-    <% else %>
-      <%= button_to "Activar este plan", subscribe_plan_path(plan), method: :post %>
+  <% if current_user.ceo? %>
+    <%= link_to 'Nuevo Plan', new_plan_path, class: "btn btn-primary mb-4" %>
+  <% end %>
+
+  <div class="row">
+    <% @plans.each do |plan| %>
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title"><%= plan.name %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">$<%= plan.price %> - <%= plan_duration_text(plan) %></h6>
+            <p class="card-text"><%= plan.description %></p>
+
+            <% if current_user.ceo? %>
+              <div class="d-flex justify-content-between">
+                <%= link_to 'Editar', edit_plan_path(plan), class: "btn btn-outline-primary btn-sm" %>
+                <%= link_to 'Eliminar', plan_path(plan), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-outline-danger btn-sm" %>
+              </div>
+            <% else %>
+              <% if current_user.plan_id == plan.id %>
+                <span class="badge bg-success mt-2">Este es tu plan actual</span>
+              <% else %>
+                <%= button_to 'Suscribirme a este plan', subscribe_plan_path(plan), method: :post, class: "btn btn-primary mt-2 w-100" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
-  <hr>
-<% end %>
+</div>

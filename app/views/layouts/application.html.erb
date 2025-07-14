@@ -1,68 +1,82 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "App" %></title>
+    <title><%= content_for(:title) || "GymTrack" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
+    <!-- Bootstrap 5 CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-
-    <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-    <%= javascript_include_tag "chartkick" %>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <div class="d-flex align-items-center justify-content-end p-3 bg-light border-bottom">
-        <span class="me-3 fw-semibold text-primary">
-          Bienvenido, <strong><%= current_user.name %></strong>
-        </span>
-        <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete, form: { class: "d-inline" }, class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, confirm: "¿Seguro que quieres cerrar sesión?" } %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">GymTrack</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <% if user_signed_in? %>
+              <% if current_user.ceo? %>
+                <li class="nav-item"><%= link_to 'Dashboard CEO', ceo_dashboard_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Actividades', activities_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Planes', plans_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Horarios', class_schedules_path, class: "nav-link" %></li>
+              <% else %>
+                <li class="nav-item"><%= link_to 'Mi Dashboard', users_dashboard_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Mis Clases', class_sessions_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Mi Plan', plans_path, class: "nav-link" %></li>
+              <% end %>
+            <% end %>
+          </ul>
+
+          <ul class="navbar-nav">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <span class="navbar-text text-light me-2">Hola, <%= current_user.name %></span>
+              </li>
+              <li class="nav-item me-2">
+                <%= link_to 'Editar Perfil', edit_user_registration_path, class: "btn btn-outline-light btn-sm" %>
+              </li>
+              <li class="nav-item">
+                <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Iniciar sesión', new_user_session_path, class: "btn btn-outline-light" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
-    <% else %>
-      <div class="p-3 text-end">
-        <%= link_to 'Iniciar sesión', new_user_session_path, class: "btn btn-primary btn-sm" %>
-      </div>
-    <% end %>
+    </nav>
 
-    <%= yield %>
-    <%= render "shared/back_to_dashboard" %>
+    <div class="container">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      <% end %>
 
-    <script>
-      (() => {
-        'use strict'
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      <% end %>
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
+      <%= yield %>
+    </div>
 
-        // Loop over them and prevent submission if invalid
-        Array.from(forms).forEach(form => {
-          form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-          }, false)
-        })
-      })()
-    </script>
+    <!-- Bootstrap JS (opcional, para funcionalidad como dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

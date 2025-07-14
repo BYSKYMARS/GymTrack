@@ -1,0 +1,62 @@
+<% content_for :title, "Horarios de clases disponibles" %>
+
+<div class="container mt-4">
+  <h1 class="mb-3">Horarios de clases disponibles</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Filtrar horarios</h5>
+
+      <%= form_with url: class_schedules_path, method: :get, local: true, class: "row g-3 align-items-end" do |f| %>
+        <div class="col-md-5">
+          <%= f.label :activity_id, "Actividad", class: "form-label" %>
+          <%= f.collection_select :activity_id, @activities, :id, :name, { prompt: "Todas" }, class: "form-select" %>
+        </div>
+
+        <div class="col-md-5">
+          <%= f.label :weekday, "Día", class: "form-label" %>
+          <%= f.select :weekday, Date::DAYNAMES.each_with_index.map { |d, i| [d, i] }, { prompt: "Todos" }, class: "form-select" %>
+        </div>
+
+        <div class="col-md-2">
+          <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Actividad</th>
+          <th>Sala</th>
+          <th>Entrenador</th>
+          <th>Día</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @class_schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.activity.name %></td>
+            <td><%= schedule.room.name %></td>
+            <td><%= schedule.trainer.name %></td>
+            <td><%= Date::DAYNAMES[schedule.weekday % 7] %></td>
+            <td><%= schedule.start_time.strftime("%H:%M") %></td>
+            <td><%= schedule.end_time.strftime("%H:%M") %></td>
+            <td>
+              <%= button_to "Inscribirme", reserve_class_schedule_path(schedule), method: :post, class: "btn btn-success btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if current_user.ceo? %>
+    <%= link_to 'Nueva Clase', new_class_schedule_path, class: "btn btn-outline-primary mt-3" %>
+  <% end %>
+</div>

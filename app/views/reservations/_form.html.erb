@@ -1,0 +1,34 @@
+<%= form_with(model: reservation, local: true, class: "mt-4") do |form| %>
+  <% if reservation.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(reservation.errors.count, "error") %> impidieron guardar la reserva:</h4>
+      <ul>
+        <% reservation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :user_id, "Usuario", class: "form-label" %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :class_session_id, "Clase", class: "form-label" %>
+    <%= form.number_field :class_session_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, "Estado", class: "form-label" %>
+    <%= form.text_field :status, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :booked_at, "Fecha de reserva", class: "form-label" %>
+    <%= form.datetime_field :booked_at, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Guardar", class: "btn btn-primary" %>
+<% end %>

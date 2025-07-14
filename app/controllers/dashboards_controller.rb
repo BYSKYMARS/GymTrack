@@ -1,63 +1,68 @@
 class DashboardsController < ApplicationController
-  def ceo
-    @total_users = User.count
-    @active_payments = Payment.where("expires_on >= ?", Date.today).count
-    @total_income = Payment.sum(:amount_paid)
-    @most_active_users = User.joins(:user_activities).group(:id).order("COUNT(user_activities.id) DESC").limit(5)
+  before_action :authenticate_user!
+
+
+
+  def redirect_by_role
+    if current_user.ceo?
+      redirect_to ceo_dashboard_path
+    else
+      redirect_to users_dashboard_path
+    end
   end
 
+  
+  def ceo
+    redirect_to users_dashboard_path unless current_user.ceo?
+  
+    @users_count = User.count
+    @activities_count = Activity.count
+    @payments_count = Payment.count
+    @total_earnings = Payment.sum(:amount_paid)
+  
+    # Clases más populares (top 5 actividades con más reservas)
+    @popular_activities = Activity
+      .joins(class_sessions: :reservations)
+      .group('activities.id')
+      .order('COUNT(reservations.id) DESC')
+      .limit(5)
+      .select('activities.*, COUNT(reservations.id) as reservation_count')
+  
+    # Reporte de ocupación
+    @full_classes = ClassSession
+      .joins(:reservations)
+      .group(:id)
+      .select { |s| s.reservations.size >= s.max_participants }
+
+    @empty_classes = ClassSession
+      .left_outer_joins(:reservations)
+      .group(:id)
+      .select { |s| s.reservations.empty? }
+
+  
+    # Entrenadores por sede
+    @trainers_per_location = StaffMember
+      .group(:gym_location_id)
+      .count
+  end
+  
+  
   def user
-    @interval = params[:interval] || "day"
-    @metric = params[:metric] || "calories_burned"
-    @activity_id = params[:activity_id].presence
-    @date_param = params[:date].presence || Date.today.to_s
+    @next_classes = current_user.reservations
+                      .joins(:class_session)
+                      .where(status: 'booked')
+                      .where("class_sessions.starts_at > ?", Time.zone.now)
+                      .includes(class_session: [:activity, :room, :trainer])
+                      .order("class_sessions.starts_at ASC")
+                      .limit(5)
+                      @plan = current_user.plan
+                      @last_payment = current_user.payments.order(paid_on: :desc).first
+                      
+  end
   
-    case @interval
-    when "day"
-      @date = Date.parse(@date_param)
-      start_time = @date.beginning_of_day
-      end_time = @date.end_of_day
-    when "week"
-      # La fecha de inicio de la semana que el usuario seleccionó
-      @week_start = Date.parse(@date_param)
-      start_time = @week_start.beginning_of_day
-      end_time = (@week_start + 6.days).end_of_day
-    when "month"
-      year = params[:year].presence || Date.today.year
-      month = params[:month].presence || Date.today.month
-      start_time = Date.new(year.to_i, month.to_i, 1)
-      end_time = start_time.end_of_month
-    when "year"
-      year = params[:year].presence || Date.today.year
-      start_time = Date.new(year.to_i, 1, 1)
-      end_time = start_time.end_of_year
-    else
-      @interval = "day"
-      @date = Date.parse(@date_param)
-      start_time = @date.beginning_of_day
-      end_time = @date.end_of_day
-    end
   
-    activities_scope = current_user.user_activities.where(date: start_time..end_time)
-    activities_scope = activities_scope.where(activity_id: @activity_id) if @activity_id
   
-    if @interval == "day"
-      @duration_data = activities_scope.group(:activity_id).sum(:duration).transform_keys { |id| Activity.find_by(id: id)&.name || "Desconocida" }
-      @calories_data = activities_scope.group(:activity_id).sum(:calories_burned).transform_keys { |id| Activity.find_by(id: id)&.name || "Desconocida" }
-    else
-      case @interval
-      when "week", "month"
-        # Agrupamos por día
-        @chart_data = activities_scope.group_by_day(:date).sum(@metric)
-      when "year"
-        @chart_data = activities_scope.group_by_month(:date, format: "%b").sum(@metric)
-      end
-    end
-  
-    @calories_total = activities_scope.sum(:calories_burned)
-    @minutes_total = activities_scope.sum(:duration)
-    @activities = Activity.all.order(:name)
-    @user_activities = current_user.user_activities.order(date: :desc).limit(10)
-  end  
+
+
   
 end

@@ -1,5 +1,6 @@
 class Activity < ApplicationRecord
-    validates :name, :category, presence: true
+  has_many :user_activities
+  has_many :class_schedules
+  has_many :class_sessions
 
-    has_many :user_activities, dependent: :destroy
 end

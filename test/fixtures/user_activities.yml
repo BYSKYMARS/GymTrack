@@ -4,14 +4,10 @@ one:
   user: one
   activity: one
   duration: 1
-  date: 2025-06-01
-  calories_burned: 1
-  notes: MyText
+  date: 2025-07-12
 
 two:
   user: two
   activity: two
   duration: 1
-  date: 2025-06-01
-  calories_burned: 1
-  notes: MyText
+  date: 2025-07-12

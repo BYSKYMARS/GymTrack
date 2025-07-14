@@ -1,33 +1,27 @@
-<h1>Mis actividades registradas</h1>
+<p class="text-success"><%= notice %></p>
 
-<table class="table table-striped table-hover">
-  <thead class="table-dark">
-    <tr>
-      <th>Actividad</th>
-      <th>Duración (min)</th>
-      <th>Fecha</th>
-      <th>Calorías quemadas</th>
-      <th>Notas</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
+<% content_for :title, "Actividades de usuarios" %>
 
-  <tbody>
-    <% @user_activities.each do |ua| %>
-      <tr>
-        <td><%= ua.activity.name %></td>
-        <td><%= ua.duration %></td>
-        <td><%= ua.date.strftime("%d/%m/%Y") %></td>
-        <td><%= ua.calories_burned %></td>
-        <td><%= ua.notes %></td>
-        <td>
-          <%= link_to "Ver", user_activity_path(ua), class: "btn btn-sm btn-info me-1" %>
-          <%= link_to "Editar", edit_user_activity_path(ua), class: "btn btn-sm btn-warning me-1" %>
-          <%= link_to "Eliminar", user_activity_path(ua), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-danger" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<h1 class="mb-4">Actividades de usuarios</h1>
 
-<%= link_to "Registrar nueva actividad", new_user_activity_path, class: "btn btn-primary mt-3" %>
+<div class="mb-3">
+  <%= link_to "Registrar nueva actividad", new_user_activity_path, class: "btn btn-primary" %>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4" id="user_activities">
+  <% @user_activities.each do |user_activity| %>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Usuario ID: <%= user_activity.user_id %></h5>
+          <p class="card-text">
+            <strong>Actividad ID:</strong> <%= user_activity.activity_id %><br>
+            <strong>Duración:</strong> <%= user_activity.duration %> minutos<br>
+            <strong>Fecha:</strong> <%= user_activity.date.strftime('%d/%m/%Y') %>
+          </p>
+          <%= link_to "Ver detalle", user_activity, class: "btn btn-sm btn-outline-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

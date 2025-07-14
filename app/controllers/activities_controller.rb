@@ -1,20 +1,18 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: %i[ show edit update destroy ]
-  before_action :authorize_ceo!, except: [:index, :show]
-
+  before_action :authorize_ceo!
   # GET /activities or /activities.json
   def index
     @activities = Activity.all
+    @activities = @activities.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+    @activities = @activities.where("category ILIKE ?", "%#{params[:category]}%") if params[:category].present?
   end
+  
 
   # GET /activities/1 or /activities/1.json
   def show
   end
-  
-  def authorize_ceo!
-    redirect_to root_path, alert: "Acceso denegado." unless current_user&.ceo?
-  end
-  
+
   # GET /activities/new
   def new
     @activity = Activity.new
@@ -67,9 +65,13 @@ class ActivitiesController < ApplicationController
     def set_activity
       @activity = Activity.find(params.expect(:id))
     end
-
+    def authorize_ceo!
+      unless current_user&.ceo?
+        redirect_to authenticated_root_path, alert: "Acceso denegado"
+      end
+    end
     # Only allow a list of trusted parameters through.
     def activity_params
-      params.expect(activity: [ :name, :category, :description ])
+      params.expect(activity: [ :name, :category ])
     end
 end

@@ -1,9 +1,31 @@
-<div id="<%= dom_id payment %>" class="card p-3 mb-3">
-  <p><strong>User:</strong> <%= payment.user_id %></p>
-  <p><strong>Plan:</strong> <%= payment.plan_id %></p>
-  <p><strong>Amount paid:</strong> <%= number_to_currency(payment.amount_paid) %></p>
-  <p><strong>Paid on:</strong> <%= l(payment.paid_on, format: :short) if payment.paid_on %></p>
-  <p><strong>Expires on:</strong> <%= l(payment.expires_on, format: :short) if payment.expires_on %></p>
-  <p><strong>Status:</strong> <%= payment.status %></p>
-</div>
+<div id="<%= dom_id payment %>">
+  <p>
+    <strong>Usuario:</strong>
+    <%= payment.user.name %> (<%= payment.user.email %>)
+  </p>
 
+  <p>
+    <strong>Plan:</strong>
+    <%= payment.plan.name %>
+  </p>
+
+  <p>
+    <strong>Monto pagado:</strong>
+    $<%= number_with_precision(payment.amount_paid, precision: 2) %>
+  </p>
+
+  <p>
+    <strong>Fecha de pago:</strong>
+    <%= l(payment.paid_on, format: :long) %>
+  </p>
+
+  <p>
+    <strong>Vence el:</strong>
+    <%= l(payment.expires_on, format: :long) %>
+  </p>
+
+  <p>
+    <strong>Estado:</strong>
+    <%= payment.status == "active" ? "Activo" : "Inactivo" %>
+  </p>
+</div>

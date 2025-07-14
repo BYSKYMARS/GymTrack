@@ -15,7 +15,6 @@ class ActivitiesTest < ApplicationSystemTestCase
     click_on "New activity"
 
     fill_in "Category", with: @activity.category
-    fill_in "Description", with: @activity.description
     fill_in "Name", with: @activity.name
     click_on "Create Activity"
 
@@ -28,7 +27,6 @@ class ActivitiesTest < ApplicationSystemTestCase
     click_on "Edit this activity", match: :first
 
     fill_in "Category", with: @activity.category
-    fill_in "Description", with: @activity.description
     fill_in "Name", with: @activity.name
     click_on "Update Activity"
 

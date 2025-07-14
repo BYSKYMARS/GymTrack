@@ -1,0 +1,15 @@
+<% content_for :title, "Nuevo miembro del staff" %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Nuevo miembro del staff</h1>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <%= render "form", staff_member: @staff_member %>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to "Volver a la lista de staff", staff_members_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

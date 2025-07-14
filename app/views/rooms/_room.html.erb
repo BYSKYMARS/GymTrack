@@ -1,0 +1,16 @@
+<div id="<%= dom_id room %>" class="card">
+  <div class="card-body">
+    <h5 class="card-title"><%= room.name %></h5>
+
+    <p class="card-text">
+      <strong>Capacidad:</strong> <%= room.capacity %>
+    </p>
+
+    <p class="card-text">
+      <strong>Sede:</strong> <%= room.gym_location&.name || "No asignada" %>
+    </p>
+
+    <%= link_to "Editar sala", edit_room_path(room), class: "btn btn-outline-primary me-2" %>
+    <%= link_to "Volver a salas", rooms_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

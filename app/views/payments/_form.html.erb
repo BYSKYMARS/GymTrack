@@ -1,7 +1,7 @@
 <%= form_with(model: payment, local: true) do |form| %>
   <% if payment.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(payment.errors.count, "error") %> prohibited this payment from being saved:</h4>
+      <h4><%= pluralize(payment.errors.count, "error") %> impidieron guardar este pago:</h4>
       <ul>
         <% payment.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,37 +11,36 @@
   <% end %>
 
   <div class="mb-3">
-    <%= form.label :user_id, class: "form-label" %>
-    <%= form.text_field :user_id, class: "form-control" %>
+    <%= form.label :user_id, "Usuario" %>
+    <%= form.collection_select :user_id, User.all, :id, :name, prompt: "Selecciona un usuario" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :plan_id, class: "form-label" %>
-    <%= form.text_field :plan_id, class: "form-control" %>
+    <%= form.label :plan_id, "Plan" %>
+    <%= form.collection_select :plan_id, Plan.all, :id, :name, prompt: "Selecciona un plan" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :amount_paid, class: "form-label" %>
-    <%= form.text_field :amount_paid, class: "form-control" %>
+    <%= form.label :amount_paid, "Monto pagado (USD)" %>
+    <%= form.number_field :amount_paid, step: 0.01, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :paid_on, class: "form-label" %>
-    <%= form.datetime_field :paid_on, class: "form-control" %>
+    <%= form.label :paid_on, "Fecha de pago" %>
+    <%= form.date_field :paid_on, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :expires_on, class: "form-label" %>
-    <%= form.datetime_field :expires_on, class: "form-control" %>
+    <%= form.label :expires_on, "Fecha de vencimiento" %>
+    <%= form.date_field :expires_on, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :status, class: "form-label" %>
-    <%= form.text_field :status, class: "form-control" %>
+    <%= form.label :status, "Estado" %>
+    <%= form.select :status, options_for_select([["Activo", "active"], ["Inactivo", "inactive"]], selected: payment.status), prompt: "Selecciona estado", class: "form-select" %>
   </div>
 
   <div>
-    <%= form.submit "Guardar", class: "btn btn-primary" %>
+    <%= form.submit "Guardar Pago", class: "btn btn-primary" %>
   </div>
 <% end %>
-

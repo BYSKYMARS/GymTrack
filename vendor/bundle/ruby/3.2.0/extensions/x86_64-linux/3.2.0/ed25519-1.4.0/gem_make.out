@@ -7,10 +7,10 @@ checking for whether -std=c99 is accepted as CFLAGS... yes
 creating Makefile
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-gccuj5 sitelibdir\=./.gem.20250602-1364-gccuj5 clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-u21mge sitelibdir\=./.gem.20250712-50-u21mge clean
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-gccuj5 sitelibdir\=./.gem.20250602-1364-gccuj5
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-u21mge sitelibdir\=./.gem.20250712-50-u21mge
 compiling ed25519_ref10.c
 ed25519_ref10.c: In function ‘Init_ed25519_ref10’:
 ed25519_ref10.c:12:6: warning: old-style function definition [-Wold-style-definition]
@@ -32,8 +32,8 @@ compiling verify.c
 linking shared-object ed25519_ref10.so
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-gccuj5 sitelibdir\=./.gem.20250602-1364-gccuj5 install
-/usr/bin/install -c -m 0755 ed25519_ref10.so ./.gem.20250602-1364-gccuj5
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-u21mge sitelibdir\=./.gem.20250712-50-u21mge install
+/usr/bin/install -c -m 0755 ed25519_ref10.so ./.gem.20250712-50-u21mge
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-gccuj5 sitelibdir\=./.gem.20250602-1364-gccuj5 clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-50-u21mge sitelibdir\=./.gem.20250712-50-u21mge clean

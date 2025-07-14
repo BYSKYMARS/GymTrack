@@ -1,0 +1,28 @@
+<% content_for :title, "Detalle del Staff" %>
+
+<div class="container mt-4">
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header">
+      <h2 class="h5 mb-0">Información del miembro del staff</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Nombre:</strong> <%= @staff_member.name %></p>
+      <p><strong>Email:</strong> <%= @staff_member.email %></p>
+      <p><strong>Rol:</strong> <%= @staff_member.role %></p>
+      <p><strong>Sede:</strong> <%= @staff_member.gym_location.name if @staff_member.gym_location %></p>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= link_to "Editar", edit_staff_member_path(@staff_member), class: "btn btn-primary" %>
+    <%= link_to "Volver", staff_members_path, class: "btn btn-outline-secondary" %>
+    <%= button_to "Eliminar", @staff_member, method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-danger ms-auto" %>
+  </div>
+</div>

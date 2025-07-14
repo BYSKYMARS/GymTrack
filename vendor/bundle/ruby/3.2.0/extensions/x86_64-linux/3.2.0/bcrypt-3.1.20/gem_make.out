@@ -3,10 +3,10 @@ current directory: /app/vendor/bundle/ruby/3.2.0/gems/bcrypt-3.1.20/ext/mri
 creating Makefile
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/bcrypt-3.1.20/ext/mri
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-y9xug9 sitelibdir\=./.gem.20250602-1364-y9xug9 clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-1199-f63sfj sitelibdir\=./.gem.20250712-1199-f63sfj clean
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/bcrypt-3.1.20/ext/mri
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-y9xug9 sitelibdir\=./.gem.20250602-1364-y9xug9
+make DESTDIR\= sitearchdir\=./.gem.20250712-1199-f63sfj sitelibdir\=./.gem.20250712-1199-f63sfj
 compiling bcrypt_ext.c
 bcrypt_ext.c: In function ‘Init_bcrypt_ext’:
 bcrypt_ext.c:113:6: warning: old-style function definition [-Wold-style-definition]
@@ -29,8 +29,8 @@ cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ 
 linking shared-object bcrypt_ext.so
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/bcrypt-3.1.20/ext/mri
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-y9xug9 sitelibdir\=./.gem.20250602-1364-y9xug9 install
-/usr/bin/install -c -m 0755 bcrypt_ext.so ./.gem.20250602-1364-y9xug9
+make DESTDIR\= sitearchdir\=./.gem.20250712-1199-f63sfj sitelibdir\=./.gem.20250712-1199-f63sfj install
+/usr/bin/install -c -m 0755 bcrypt_ext.so ./.gem.20250712-1199-f63sfj
 
 current directory: /app/vendor/bundle/ruby/3.2.0/gems/bcrypt-3.1.20/ext/mri
-make DESTDIR\= sitearchdir\=./.gem.20250602-1364-y9xug9 sitelibdir\=./.gem.20250602-1364-y9xug9 clean
+make DESTDIR\= sitearchdir\=./.gem.20250712-1199-f63sfj sitelibdir\=./.gem.20250712-1199-f63sfj clean

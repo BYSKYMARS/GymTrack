@@ -1,9 +1,27 @@
-<div class="container mt-4">
-  <p class="lead">Hello <strong><%= @email %></strong>!</p>
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+  <h2 style="color: #2c3e50;">Hola <%= @email %>!</h2>
 
   <% if @resource.try(:unconfirmed_email?) %>
-    <p>We're contacting you to notify you that your email is being changed to <strong><%= @resource.unconfirmed_email %></strong>.</p>
+    <p style="font-size: 16px; color: #333;">
+      Te informamos que se ha solicitado el cambio de tu correo electrónico a:
+      <strong><%= @resource.unconfirmed_email %></strong>.
+    </p>
+    <p style="font-size: 14px; color: #777;">
+      Este cambio no se hará efectivo hasta que confirmes la nueva dirección.
+    </p>
   <% else %>
-    <p>We're contacting you to notify you that your email has been changed to <strong><%= @resource.email %></strong>.</p>
+    <p style="font-size: 16px; color: #333;">
+      Te informamos que tu correo electrónico ha sido actualizado correctamente a:
+      <strong><%= @resource.email %></strong>.
+    </p>
   <% end %>
+
+  <p style="font-size: 14px; color: #777;">
+    Si tú no realizaste este cambio, por favor contacta al soporte inmediatamente.
+  </p>
+
+  <hr style="margin-top: 40px;">
+  <p style="font-size: 12px; color: #999;">
+    Este es un mensaje automático, por favor no respondas este correo.
+  </p>
 </div>

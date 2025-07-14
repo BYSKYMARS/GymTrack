@@ -31,8 +31,8 @@ class PaymentsTest < ApplicationSystemTestCase
     click_on "Edit this payment", match: :first
 
     fill_in "Amount paid", with: @payment.amount_paid
-    fill_in "Expires on", with: @payment.expires_on.to_s
-    fill_in "Paid on", with: @payment.paid_on.to_s
+    fill_in "Expires on", with: @payment.expires_on
+    fill_in "Paid on", with: @payment.paid_on
     fill_in "Plan", with: @payment.plan_id
     fill_in "Status", with: @payment.status
     fill_in "User", with: @payment.user_id

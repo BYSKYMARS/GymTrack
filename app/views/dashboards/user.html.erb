@@ -1,105 +1,63 @@
-<h1 class="mb-4">Dashboard Personalizado</h1>
+<% content_for :title, "Dashboard del Usuario" %>
 
-<%= form_with url: users_dashboard_path, method: :get, local: true, html: { class: "needs-validation", novalidate: true } do |f| %>
-  <div class="row g-3 align-items-end">
-    <div class="col-md-3">
-      <%= f.label :interval, "Intervalo de tiempo:", class: "form-label" %>
-      <%= f.select :interval, options_for_select([["Día", "day"], ["Semana", "week"], ["Mes", "month"], ["Año", "year"]], selected: @interval), { prompt: "Seleccione..." }, { class: "form-select", id: "interval_select", onchange: "this.form.submit();" } %>
-    </div>
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h1 class="mb-3">Bienvenido, <%= current_user.name %></h1>
 
-    <div class="col-md-4" id="date_picker_container">
-      <% if @interval == "day" || @interval == "week" %>
-        <%= f.label :date, @interval == "week" ? "Fecha inicio de semana:" : "Fecha:", class: "form-label" %>
-        <%= f.date_field :date, value: @date_param, class: "form-control" %>
-      <% elsif @interval == "month" %>
-        <%= f.label :year, "Año:", class: "form-label" %>
-        <%= f.number_field :year, value: params[:year] || Date.today.year, min: 2000, max: 2100, class: "form-control mb-2" %>
-
-        <%= f.label :month, "Mes:", class: "form-label" %>
-        <%= f.select :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |m,i| [m, i+1] }, selected: params[:month] || Date.today.month), {}, class: "form-select" %>
-      <% elsif @interval == "year" %>
-        <%= f.label :year, "Año:", class: "form-label" %>
-        <%= f.number_field :year, value: params[:year] || Date.today.year, min: 2000, max: 2100, class: "form-control" %>
+      <% if @plan %>
+        <div class="alert alert-success">
+          <h4 class="alert-heading">Tu plan actual: <%= @plan.name %></h4>
+          <% if @last_payment %>
+            <p>Vence el: <%= l(@last_payment.expires_on, format: :long) %></p>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="alert alert-warning">
+          <strong>No tienes un plan activo.</strong>
+        </div>
       <% end %>
     </div>
+  </div>
 
-    <div class="col-md-2">
-      <%= f.label :metric, "Métrica:", class: "form-label" %>
-      <%= f.select :metric, options_for_select([["Calorías quemadas", "calories_burned"], ["Duración (minutos)", "duration"]], selected: @metric), {}, class: "form-select" %>
-    </div>
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Próximas clases reservadas</h2>
 
-    <div class="col-md-3">
-      <%= f.label :activity_id, "Actividad:", class: "form-label" %>
-      <%= f.select :activity_id, options_for_select([["Todas", ""]] + @activities.map { |a| [a.name, a.id] }, selected: @activity_id), {}, class: "form-select" %>
-    </div>
-
-    <div class="col-md-12 text-end mt-3">
-      <%= f.submit "Filtrar", class: "btn btn-primary" %>
+      <% if @next_classes.any? %>
+        <table class="table table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>Actividad</th>
+              <th>Entrenador</th>
+              <th>Sala</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @next_classes.each do |reservation| %>
+              <tr>
+                <td><%= reservation.class_session.activity.name %></td>
+                <td><%= reservation.class_session.trainer.name %></td>
+                <td><%= reservation.class_session.room.name %></td>
+                <td><%= l(reservation.class_session.starts_at.to_date, format: :long) %></td>
+                <td><%= reservation.class_session.starts_at.strftime("%H:%M") %> - <%= reservation.class_session.ends_at.strftime("%H:%M") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="alert alert-info">
+          No tienes clases próximas reservadas.
+        </div>
+      <% end %>
     </div>
   </div>
-<% end %>
 
-<hr>
-
-<% if @interval == "day" %>
-  <% if @duration_data.present? && @calories_data.present? %>
-    <h2>Duración (minutos) por actividad</h2>
-    <%= column_chart @duration_data, xtitle: "Actividad", ytitle: "Minutos", library: { height: 300 } %>
-
-    <h2 class="mt-4">Calorías quemadas por actividad</h2>
-    <%= column_chart @calories_data, xtitle: "Actividad", ytitle: "Calorías", library: { height: 300 } %>
-  <% else %>
-    <p>No hay datos para el día seleccionado.</p>
-  <% end %>
-<% else %>
-  <% if @chart_data.present? %>
-    <h2><%= @metric == "calories_burned" ? "Calorías quemadas" : "Duración (minutos)" %> por <%= @interval == "month" || @interval == "week" ? "día" : "mes" %></h2>
-    <%= line_chart @chart_data, xtitle: "Tiempo", ytitle: @metric == "calories_burned" ? "Calorías" : "Minutos", library: { height: 350 } %>
-  <% else %>
-    <p>No hay datos para el período seleccionado.</p>
-  <% end %>
-<% end %>
-
-<hr>
-
-<div class="row">
-  <div class="col-md-6">
-    <p> </p>
-    <p><strong>Calorías totales quemadas:</strong> <%= @calories_total %></p>
-  </div>
-  <div class="col-md-6">
-    <p></p>
-    <p><strong>Minutos totales entrenados:</strong> <%= @minutes_total %></p>
+  <div class="row">
+    <div class="col">
+      <%= link_to "Ver Plan Semanal de Clases", class_schedules_path, class: "btn btn-primary" %>
+    </div>
   </div>
 </div>
-
-<h3>Últimas actividades registradas:</h3>
-<ul class="list-group mb-4">
-  <% @user_activities.each do |ua| %>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <div>
-        <strong><%= ua.activity.name %></strong><br>
-        <small><%= ua.date.strftime("%d/%m/%Y") %></small>
-      </div>
-      <div>
-        <span class="badge bg-primary rounded-pill"><%= ua.duration %> min</span>
-        <span class="badge bg-success rounded-pill ms-2"><%= ua.calories_burned %> cal</span>
-      </div>
-    </li>
-  <% end %>
-</ul>
-
-<% if flash[:alert] %>
-  <div class="alert alert-warning"><%= flash[:alert] %></div>
-<% end %>
-
-<div class="mb-3">
-  <% if current_user.payments.where("expires_on >= ?", Date.today).exists? %>
-    <%= link_to "Registrar nueva actividad", new_user_activity_path, class: "btn btn-success me-2" %>
-  <% else %>
-    <p class="text-danger">No tienes un plan activo. Por favor elige uno para comenzar.</p>
-  <% end %>
-  <%= link_to "Ver mis actividades", user_activities_path, class: "btn btn-primary" %>
-</div>
-
-<%= link_to "Ver planes disponibles", plans_path %>

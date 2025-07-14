@@ -1,0 +1,25 @@
+<% content_for :title, "Detalle de asistencia" %>
+
+<div class="container mt-4">
+  <% if notice %>
+    <div class="alert alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Detalle de la Asistencia</h4>
+
+      <p><strong>Usuario:</strong> <%= @attendance.user.name rescue @attendance.user_id %></p>
+      <p><strong>Sesión de clase:</strong> <%= @attendance.class_session.activity.name rescue @attendance.class_session_id %></p>
+      <p><strong>Fecha y hora:</strong> <%= l(@attendance.attended_at, format: :long) %></p>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to "Editar asistencia", edit_attendance_path(@attendance), class: "btn btn-primary" %>
+    <%= link_to "Volver a asistencias", attendances_path, class: "btn btn-secondary" %>
+    <%= button_to "Eliminar asistencia", @attendance, method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+  </div>
+</div>

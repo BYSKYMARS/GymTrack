@@ -4,14 +4,14 @@ one:
   user: one
   plan: one
   amount_paid: 9.99
-  paid_on: 2025-06-01 20:55:10
-  expires_on: 2025-06-01 20:55:10
+  paid_on: 2025-07-12
+  expires_on: 2025-07-12
   status: MyString
 
 two:
   user: two
   plan: two
   amount_paid: 9.99
-  paid_on: 2025-06-01 20:55:10
-  expires_on: 2025-06-01 20:55:10
+  paid_on: 2025-07-12
+  expires_on: 2025-07-12
   status: MyString

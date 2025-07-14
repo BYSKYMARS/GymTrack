@@ -15,10 +15,8 @@ class UserActivitiesTest < ApplicationSystemTestCase
     click_on "New user activity"
 
     fill_in "Activity", with: @user_activity.activity_id
-    fill_in "Calories burned", with: @user_activity.calories_burned
     fill_in "Date", with: @user_activity.date
     fill_in "Duration", with: @user_activity.duration
-    fill_in "Notes", with: @user_activity.notes
     fill_in "User", with: @user_activity.user_id
     click_on "Create User activity"
 
@@ -31,10 +29,8 @@ class UserActivitiesTest < ApplicationSystemTestCase
     click_on "Edit this user activity", match: :first
 
     fill_in "Activity", with: @user_activity.activity_id
-    fill_in "Calories burned", with: @user_activity.calories_burned
     fill_in "Date", with: @user_activity.date
     fill_in "Duration", with: @user_activity.duration
-    fill_in "Notes", with: @user_activity.notes
     fill_in "User", with: @user_activity.user_id
     click_on "Update User activity"
 
